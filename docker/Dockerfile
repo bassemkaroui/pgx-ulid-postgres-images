@@ -38,14 +38,12 @@ RUN git clone https://github.com/pksunkara/pgx_ulid.git
 
 WORKDIR /home/build/pgx_ulid
 
-RUN cargo pgrx install
+RUN cargo pgrx install --release
 
 # -------------------------
 # Stage 2: runtime
 # -------------------------
 FROM postgres:${PG_MAJOR}.${PG_MINOR}-${DEBIAN_TAG} AS runtime
-
-ARG PG_MAJOR
 
 COPY --from=builder /usr/share/postgresql/${PG_MAJOR}/extension /usr/share/postgresql/${PG_MAJOR}/extension
 COPY --from=builder /usr/lib/postgresql/${PG_MAJOR}/lib /usr/lib/postgresql/${PG_MAJOR}/lib
